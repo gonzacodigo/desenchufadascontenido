@@ -1,5 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
-import os
+import random
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_cors import CORS
 from bs4 import BeautifulSoup
@@ -7,8 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from urllib.parse import urljoin
-
 
 app = Flask(__name__)
 CORS(app)
@@ -36,8 +34,7 @@ def obtener_noticias():
     # Usar Selenium para cargar la página
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    noticias = soup.find_all('article', class_='card__container card__horizontal')[:5]
-    print(noticias)
+    noticias = soup.find_all('article', class_='card__container card__horizontal')[:15]
 
     resultado = []
 
@@ -157,5 +154,4 @@ def obtener_noticias_caras():
     return jsonify(resultado)
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Puerto asignado por Render
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
