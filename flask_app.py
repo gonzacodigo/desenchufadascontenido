@@ -1,5 +1,6 @@
 from concurrent.futures import ThreadPoolExecutor
-import random
+import os
+from urllib.parse import urljoin
 from flask import Flask, render_template, send_from_directory, jsonify
 from flask_cors import CORS
 from bs4 import BeautifulSoup
@@ -153,5 +154,8 @@ def obtener_noticias_caras():
 
     return jsonify(resultado)
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Puerto asignado por Render
+    app.run(host='0.0.0.0', port=port)
+
