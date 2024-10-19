@@ -1,3 +1,4 @@
+import os
 from concurrent.futures import ThreadPoolExecutor
 import random
 from flask import Flask, render_template, send_from_directory, jsonify
@@ -5,7 +6,6 @@ from flask_cors import CORS
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
-
 
 # Tu clave de ScraperAPI
 api_keys = ['8bfe37b334e6b7034eab0ec0529550f9', '56987acc583925f1f15194da140305f5',
@@ -53,14 +53,17 @@ def obtener_noticias():
     return jsonify(resultado)
 
 def obtener_respuesta_api(url, api_keys):
+    """
+    Intenta realizar una solicitud a una URL usando múltiples claves API.
+    """
     for key in api_keys:
         scraperapi_url = f'http://api.scraperapi.com?api_key={key}&url={url}'
         try:
             response = session.get(scraperapi_url)
             response.raise_for_status()
             return response, key
-        except requests.RequestException:
-            continue
+        except requests.RequestException as e:
+            app.logger.error(f"Error en la solicitud con api_key {key}: {e}")
     return None, None
 
 def fetch_article(api_key_valido, noticia):
@@ -113,7 +116,6 @@ def fetch_article(api_key_valido, noticia):
             'contenido': " ".join(contenido)
         }
     return None
-
 
 @app.route('/api/noticias/caras', methods=['GET'])
 def obtener_noticias_caras():
@@ -173,39 +175,21 @@ def obtener_noticias_caras():
 
         picture = noticia.find('picture', class_='cls-optimized') or noticia.find('img')
         imagen = picture.find('img') if picture else None
-        imagen_url = imagen['src'] if imagen else None
+        imagen_url = imagen['data-src'] if imagen and 'data-src' in imagen.attrs else None
 
-        if title:
+        if title and imagen_url:
             resultado.append({
-                'title': title.text.strip() if title else None,
+                'title': title.text.strip(),
                 'parrafo': parrafo.text.strip() if parrafo else None,
                 'imageUrl': imagen_url,
                 'urls_imagenes': urls_imagenes,
                 'link_href': link_href,
-                'seccion': 'CARAS | ' + (seccion.text.strip() if seccion else 'SIN SECCIÓN'),
+                'seccion': (seccion.text.strip() + ' | ESPECTACULOS') if seccion else 'ESPECTACULOS',
                 'date': date.text.strip() if date else None,
-                'contenido': contenido.text.strip() if contenido else None,
             })
 
     return jsonify(resultado)
 
-
-
-def obtener_respuesta_api(url, api_keys):
-    """
-    Intenta realizar una solicitud a una URL usando múltiples claves API.
-    """
-    for key in api_keys:
-        scraperapi_url = f'http://api.scraperapi.com?api_key={key}&url={url}'
-        try:
-            response = requests.get(scraperapi_url)
-            response.raise_for_status()  # Lanza una excepción si falla
-            return response, key  # Retorna la respuesta y la clave API válida
-        except requests.RequestException as e:
-            app.logger.error(f"Error en la solicitud con api_key {key}: {e}")
-    return None, None  # Si fallan todas las API keys
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Puerto asignado por Render
+    app.run(host='0.0.0.0', port=port)
