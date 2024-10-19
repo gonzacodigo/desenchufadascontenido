@@ -31,10 +31,9 @@ def static_files(filename):
 
 @app.route('/api/noticias', methods=['GET'])
 def obtener_noticias():
-    url = "https://www.ciudad.com.ar/espectaculos/"
-    
-    driver = get_driver()
     try:
+        url = "https://www.ciudad.com.ar/espectaculos/"
+        driver = get_driver()  # inicializa Selenium
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         noticias = soup.find_all('article', class_='card__container card__horizontal')[:5]
@@ -48,8 +47,15 @@ def obtener_noticias():
                     resultado.append(articulo_data)
         
         return jsonify(resultado)
+    
+    except Exception as e:
+        # Imprimir el error en los logs de Render para que puedas depurarlo
+        print(f"Error al obtener noticias: {e}")
+        return jsonify({"error": "Error al obtener noticias"}), 500
+    
     finally:
         driver.quit()
+
 
 def fetch_article(noticia, driver):
     title = noticia.find('h2', class_='card__headline')
