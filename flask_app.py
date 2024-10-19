@@ -14,20 +14,27 @@ CORS(app)
 
 # Configurar Selenium con Chrome
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Para ejecutar en modo headless (sin interfaz gráfica)
+# Para ejecutar en modo headless (sin interfaz gráfica)
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
+# Asegúrate de que esta sea la ruta correcta a Chromium en Render
+chrome_options.binary_location = "/usr/bin/chromium"
 
 # Inicializar el driver de Selenium
-driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+driver = webdriver.Chrome(service=ChromeService(
+    ChromeDriverManager().install()), options=chrome_options)
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
+
 
 @app.route('/api/noticias', methods=['GET'])
 def obtener_noticias():
@@ -35,19 +42,22 @@ def obtener_noticias():
     # Usar Selenium para cargar la página
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
-    noticias = soup.find_all('article', class_='card__container card__horizontal')[:15]
+    noticias = soup.find_all(
+        'article', class_='card__container card__horizontal')[:15]
 
     resultado = []
 
     # Realizar las solicitudes en paralelo para obtener detalles de los artículos
     with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_article = {executor.submit(fetch_article, noticia): noticia for noticia in noticias}
+        future_to_article = {executor.submit(
+            fetch_article, noticia): noticia for noticia in noticias}
         for future in future_to_article:
             articulo_data = future.result()
             if articulo_data:
                 resultado.append(articulo_data)
 
     return jsonify(resultado)
+
 
 def fetch_article(noticia):
     title = noticia.find('h2', class_='card__headline')
@@ -75,7 +85,8 @@ def fetch_article(noticia):
             parrafos = noticias_article[0].find_all('p', class_="paragraph")
             contenido = [parrafo.get_text().strip() for parrafo in parrafos]
             imagenes = noticias_article[0].find_all('img')
-            urls_imagenes = [img['src'] for img in imagenes if 'src' in img.attrs]
+            urls_imagenes = [img['src']
+                             for img in imagenes if 'src' in img.attrs]
         else:
             date, seccion, contenido, urls_imagenes = None, None, [], []
 
@@ -92,10 +103,11 @@ def fetch_article(noticia):
             }
     return None
 
+
 @app.route('/api/noticias/caras', methods=['GET'])
 def obtener_noticias_caras():
     url = "https://caras.perfil.com/ultimo-momento"
-    
+
     # Usar Selenium para cargar la página
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -118,7 +130,7 @@ def obtener_noticias_caras():
         parrafo = noticia.find('p', class_='headline')
         link = noticia.find('a')
         link_href = link['href'] if link else None
-        
+
         if link_href and not link_href.startswith('http'):
             link_href = urljoin("https://caras.perfil.com", link_href)
 
@@ -126,17 +138,21 @@ def obtener_noticias_caras():
         if link_href:
             driver.get(link_href)
             soup_article = BeautifulSoup(driver.page_source, 'html.parser')
-            noticias_article = soup_article.find_all('main', class_='main-container max-width margin-auto container-white considebar')
+            noticias_article = soup_article.find_all(
+                'main', class_='main-container max-width margin-auto container-white considebar')
 
             if noticias_article:
                 date = noticias_article[0].find('span', class_="hat__fecha")
                 seccion = noticias_article[0].find('a')
-                contenido = noticias_article[0].find("div", class_="news-content")
-                urls_imagenes = [img['src'] for img in contenido.find_all('img') if 'src' in img.attrs]
+                contenido = noticias_article[0].find(
+                    "div", class_="news-content")
+                urls_imagenes = [img['src'] for img in contenido.find_all(
+                    'img') if 'src' in img.attrs]
             else:
                 date, seccion, urls_imagenes = None, None, []
 
-            picture = noticia.find('picture', class_='cls-optimized') or noticia.find('img')
+            picture = noticia.find(
+                'picture', class_='cls-optimized') or noticia.find('img')
             imagen = picture.find('img') if picture else None
             imagen_url = imagen['src'] if imagen else None
 
@@ -158,4 +174,3 @@ def obtener_noticias_caras():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Puerto asignado por Render
     app.run(host='0.0.0.0', port=port)
-
