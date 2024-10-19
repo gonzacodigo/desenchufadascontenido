@@ -1,5 +1,5 @@
-let url = "http://127.0.0.1:5000/api/noticias";
-let url_caras = "http://127.0.0.1:5000/api/noticias/caras";
+let url = "https://desenchufadascontenido.onrender.com/api/noticias";
+let url_caras = "https://desenchufadascontenido.onrender.com/api/noticias/caras";
 let cargando = document.getElementById("cargando");
 
 function getNoticias() {
