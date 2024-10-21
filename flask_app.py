@@ -12,11 +12,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 app = Flask(__name__)
 CORS(app)
 
-# Configurar Selenium con Chrome
+# Configurar Selenium con Chrome o Chromium
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Para ejecutar en modo headless (sin interfaz gráfica)
+chrome_options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
+
+# Verificar si estamos en Render y ajustar el binario de Chromium
+CHROMIUM_PATH = "/usr/bin/chromium-browser"  # Ubicación típica del binario de Chromium en Render
+if os.path.exists(CHROMIUM_PATH):
+    chrome_options.binary_location = CHROMIUM_PATH
 
 # Inicializar el driver de Selenium
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
