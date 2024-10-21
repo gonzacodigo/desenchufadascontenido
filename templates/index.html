@@ -1,59 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Noticias</title>
-    <style>
-        .noticia {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .noticia img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-<body>
-    <h1>Últimas Noticias</h1>
-    <div id="noticias-container"></div>
-
-    <script>
-        // Función para obtener noticias de un endpoint y mostrar en pantalla
-        function obtenerNoticias(endpoint) {
-            fetch(endpoint)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById('noticias-container');
-                    container.innerHTML = "";  // Limpiar contenido previo
-                    
-                    data.forEach(noticia => {
-                        const noticiaDiv = document.createElement('div');
-                        noticiaDiv.classList.add('noticia');
-                        
-                        noticiaDiv.innerHTML = `
-                            <h2>${noticia.title}</h2>
-                            <p>${noticia.parrafo || ''}</p>
-                            <img src="${noticia.imageUrl}" alt="Imagen noticia">
-                            <p><strong>Sección:</strong> ${noticia.seccion || 'N/A'}</p>
-                            <p><strong>Fecha:</strong> ${noticia.date || 'N/A'}</p>
-                            <p>${noticia.contenido || ''}</p>
-                            <a href="${noticia.link_href}" target="_blank">Leer más</a>
-                        `;
-                        
-                        container.appendChild(noticiaDiv);
-                    });
-                })
-                .catch(error => {
-                    console.error("Error al obtener noticias:", error);
-                });
-        }
-
-        // Cargar las noticias de Ciudad al cargar la página
-        obtenerNoticias('/api/noticias');
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="banner">
+        <div id="cargando"><p>Cargando...</p></div>
+      </div>
+      <!-- Sección de foto de perfil y título -->
+      <div class="div_foto_perfil">
+        <img
+          src="{{ url_for('static', filename='img/LOGODESENCHUFADAS2-TRANSPARENTE.svg') }}"
+          alt="Logo de Desenchufadas"
+        />
+      </div>
+      <h1>ÚLTIMAS NOTICIAS DE ESPECTACULOS</h1>
+      <p class="descripcion">
+        Disfruta de contenido exclusivo sobre el mundo del espectáculo de
+        fuentes como Revista Caras y Ciudad Magazine. Mantente al día con las
+        noticias más destacadas gracias a Desenchufadas.
+      </p>
+      <div
+        class="iframe_instagram"
+        style="overflow: hidden; width: 100%; max-width: 540px; margin: auto"
+      >
+        <blockquote
+          class="instagram-media"
+          data-instgrm-permalink="https://www.instagram.com/desenchufadas.ok"
+          data-instgrm-version="12"
+          style="
+            background: #fff;
+            border: 0;
+            border-radius: 3px;
+            box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5),
+              0 1px 10px 0 rgba(0, 0, 0, 0.15);
+            margin: 16px 0px;
+            max-width: 540px;
+            min-width: 326px;
+            padding: 0;
+            width: 100%;
+            height: 500px;
+          "
+        ></blockquote>
+        <script async defer src="//www.instagram.com/embed.js"></script>
+      </div>
+      <script async src="https://cse.google.com/cse.js?cx=87467d5905d784a95">
     </script>
-</body>
+    <div class="gcse-search"></div>
+      <div id="noticias"></div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
 </html>
-
