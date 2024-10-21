@@ -1,6 +1,7 @@
 let url = "https://desenchufadascontenido.onrender.com/api/noticias";
 let url_caras = "https://desenchufadascontenido.onrender.com/api/noticias/caras";
-let cargando = document.getElementById("cargando");
+
+let cargando = document.getElementById('cargando');
 
 function getNoticias() {
   // Hacer fetch a ambas APIs en paralelo
@@ -59,14 +60,6 @@ function getNoticiasHTML(noticias, noticiasCaras) {
     let noticiaDiv = document.createElement("div");
     noticiaDiv.classList.add("noticia");
 
-    let script = document.createElement("script");
-    script.src = "https://cse.google.com/cse.js?cx=87467d5905d784a95";
-    script.async = true;
-    document.head.appendChild(script); // Lo agregas al head del documento
-
-    let inputBusquedaImagenes = document.createElement("div");
-    inputBusquedaImagenes.classList.add("gcse-search");
-
     let date = document.createElement("p");
     date.textContent = noticia.date;
 
@@ -78,6 +71,14 @@ function getNoticiasHTML(noticias, noticiasCaras) {
 
     let parrafo = document.createElement("h4");
     parrafo.textContent = noticia.parrafo;
+
+    let script = document.createElement("script");
+    script.src = "https://cse.google.com/cse.js?cx=87467d5905d784a95";
+    script.async = true;
+    document.head.appendChild(script); // Lo agregas al head del documento
+
+    let inputBusquedaImagenes = document.createElement("div");
+    inputBusquedaImagenes.classList.add("gcse-search");
 
     // Contenedor para el contenido que se ocultará y mostrará
     let contenido = document.createElement("p");
@@ -210,3 +211,4 @@ function lazyLoadImages() {
 
 // Llamar a la función para cargar las noticias al cargar la página
 document.addEventListener("DOMContentLoaded", getNoticias);
+
