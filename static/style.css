@@ -97,14 +97,23 @@ a{
     border-radius: 16px;
     border: none;
 }
+#noticiasContainer{
+    text-align: center;
+    margin: 0px 0px;
+    background-color: white;
+    width: 100%;
+    padding: 16px 0px;
+
+}
 #infobaeBtn, #carasBtn{
     text-decoration: none;
+    width: 80%;
     text-align: center;
     font-size: 16px;
     padding: 16px;
     margin: 8px;
     color: white;
-    background-color:rgba(255, 255, 255, 0.164);
+    background-color:#c8019e;
     border-radius: 16px;
     border: none;
 }
@@ -142,6 +151,17 @@ img{
     text-align: center;
     font-size: 16px;
     margin: 8px;
+}
+#cargando2{
+    position: relative;
+    text-align: center;
+    font-size: 16px;
+    height:32px;
+    color: #ffffff;
+    font-family: "Montserrat", system-ui;
+    font-size: 24px;
+    margin: 16px;
+
 }
 .banner{
     width: 100%;
@@ -191,6 +211,7 @@ img{
     }
     #noticias{
         flex-direction: column;
+        margin-top: 0px;
     }
     .noticia{
         padding: 0px;
@@ -205,8 +226,6 @@ img{
     }
     #noticiasContainer{
         text-align: center;
-        margin: 40px 0px;
-
     }
 
   }

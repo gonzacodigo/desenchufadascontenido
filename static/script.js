@@ -1,9 +1,11 @@
 let urlInfobae = "https://desenchufadascontenido.onrender.com/api/noticias/infobae";
 let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
 let cargando = document.getElementById('cargando');
+let cargando2 = document.getElementById('cargando2');
 
 function getNoticias(url) {
-  cargando.textContent = "Cargando..."; // Mostrar mensaje de carga
+  cargando.textContent = "Cargando ..."; // Mostrar mensaje de carga
+  cargando2.textContent = "Cargando ..."; // Mostrar mensaje de carga
 
   fetch(url)
     .then((response) => {
@@ -34,6 +36,7 @@ function getNoticiasHTML(noticias) {
   }
 
   cargando.innerHTML = ""; // Limpiar mensaje de carga
+  cargando2.innerHTML = ""; // Limpiar mensaje de carga
   divResultados.innerHTML = ""; // Limpiar contenido anterior
 
   noticias.forEach((noticia) => {
