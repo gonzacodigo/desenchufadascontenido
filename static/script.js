@@ -1,6 +1,6 @@
 let urlInfobae = "https://desenchufadascontenido.onrender.com/api/noticias/infobae";
 let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
-let cargando = document.getElementById('CARGANDO ...');
+let cargando = document.getElementById('cargando');
 
 function getNoticias(url) {
   cargando.textContent = "Cargando..."; // Mostrar mensaje de carga
@@ -43,6 +43,14 @@ function getNoticiasHTML(noticias) {
     // Crear los elementos
     let date = document.createElement("p");
     date.textContent = noticia.date;
+
+    let script = document.createElement("script");
+    script.src = "https://cse.google.com/cse.js?cx=87467d5905d784a95";
+    script.async = true;
+    document.head.appendChild(script); // Lo agregas al head del documento
+
+    let inputBusquedaImagenes = document.createElement("div");
+    inputBusquedaImagenes.classList.add("gcse-search");
 
     let seccion = document.createElement("p");
     seccion.textContent = noticia.seccion;
@@ -111,6 +119,8 @@ function getNoticiasHTML(noticias) {
 
       noticiaDiv.appendChild(botonMostrarImagenes);
       noticiaDiv.appendChild(imagenesDiv);
+      noticiaDiv.appendChild(inputBusquedaImagenes);
+
     }
 
     divResultados.appendChild(noticiaDiv);
