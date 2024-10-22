@@ -1,4 +1,4 @@
-let urlInfobae = "https://desenchufadascontenido.onrender.com/noticias/infobae";
+let urlInfobae = "https://desenchufadascontenido.onrender.com/api/noticias/infobae";
 let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
 let cargando = document.getElementById('CARGANDO ...');
 

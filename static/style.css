@@ -86,11 +86,22 @@ a{
     border-radius: 16px;
     border: none;
 }
-.boton-imagenes, #infobaeBtn, #carasBtn{
+.boton-imagenes{
     text-decoration: none;
     text-align: center;
     font-size: 16px;
     padding: 8px 8px;
+    margin: 8px;
+    color: white;
+    background-color:rgba(255, 255, 255, 0.164);
+    border-radius: 16px;
+    border: none;
+}
+#infobaeBtn, #carasBtn{
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    padding: 16px;
     margin: 8px;
     color: white;
     background-color:rgba(255, 255, 255, 0.164);
@@ -191,6 +202,11 @@ img{
     }
     .gsc-results-wrapper-nooverlay .gsc-results-wrapper-visible{
         width: 90%;
+    }
+    #noticiasContainer{
+        text-align: center;
+        margin: 40px 0px;
+
     }
 
   }
