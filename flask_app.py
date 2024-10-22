@@ -94,7 +94,7 @@ def obtener_noticias_caras():
 
 @app.route('/api/noticias/infobae', methods=['GET'])
 def obtener_noticias_infobae():
-    url = "https://www.infobae.com/ultimas-noticias/"
+    url = "https://www.infobae.com/teleshow/"
     
     # Realizar la solicitud usando requests directamente
     try:
@@ -105,14 +105,14 @@ def obtener_noticias_infobae():
         return jsonify({'error': 'No se pudo obtener las noticias'}), 500
 
     soup = BeautifulSoup(response.text, 'html.parser')
-    noticias = soup.find_all('a', class_='feed-list-card')
+    noticias = soup.find_all('a', class_='story-card-ctn')
     
     resultado = []
 
     for noticia in noticias:
-        title = noticia.find('h2', class_="feed-list-card-headline-lean")
+        title = noticia.find('h2', class_="story-card-hl")
         parrafo = noticia.find('div', class_='deck')
-        imagen = noticia.find('img')
+        imagen = noticia.find('img', class_="global-image")
         imagen_url = imagen['src'] if imagen and 'src' in imagen.attrs else None
         link_href = noticia['href'] if noticia and 'href' in noticia.attrs else None
         

@@ -1,5 +1,5 @@
-let urlInfobae = "https://desenchufadascontenido.onrender.com/api/noticias/infobae";
-let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
+let urlInfobae = "http://desenchufadascontenido.onrender.com/api/noticias/infobae";
+let urlCaras = "http://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
 let cargando = document.getElementById('cargando');
 let cargando2 = document.getElementById('cargando2');
 

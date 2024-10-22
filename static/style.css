@@ -40,7 +40,7 @@ p{
 
 }
 .div_foto_perfil {
-    margin-top: 3rem;
+    margin-top: 2rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -104,9 +104,10 @@ a{
 #noticiasContainer{
     text-align: center;
     margin: 0px 0px;
-    background-color: white;
+        background-color: rgba(0, 0, 0, 0.699);
+    box-shadow: rgba(0, 0, 0, 0.699) 1px 2px 6px;
     width: 100%;
-    padding: 16px 0px;
+    padding: 24px 0px;
 
 }
 #infobaeBtn, #carasBtn{
@@ -199,6 +200,7 @@ img{
 
     h1{
         margin: 0px;
+        font-size: 20px;
     }
     h2{
         margin: 16px 8px;
@@ -238,5 +240,7 @@ img{
     #noticiasContainer{
         text-align: center;
     }
-
+    #instagram-embed-0{
+        margin: 0px;
+    }
   }
