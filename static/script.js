@@ -1,8 +1,10 @@
-let url = "https://desenchufadascontenido.onrender.com/api/noticias";
+let urlInfobae = "https://desenchufadascontenido.onrender.com/noticias/infobae";
+let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
+let cargando = document.getElementById('CARGANDO ...');
 
-let cargando = document.getElementById('cargando');
+function getNoticias(url) {
+  cargando.textContent = "Cargando..."; // Mostrar mensaje de carga
 
-function getNoticias() {
   fetch(url)
     .then((response) => {
       if (!response.ok) {
@@ -31,24 +33,12 @@ function getNoticiasHTML(noticias) {
     return;
   }
 
-  if (cargando) {
-    cargando.innerHTML = ""; // Limpiar mensaje de carga
-  }
-
+  cargando.innerHTML = ""; // Limpiar mensaje de carga
   divResultados.innerHTML = ""; // Limpiar contenido anterior
 
   noticias.forEach((noticia) => {
     let noticiaDiv = document.createElement("div");
     noticiaDiv.classList.add("noticia");
-
-    //crear input google:
-    let script = document.createElement("script");
-    script.src = "https://cse.google.com/cse.js?cx=87467d5905d784a95";
-    script.async = true;
-    document.head.appendChild(script); // Lo agregas al head del documento
-
-    let inputBusquedaImagenes = document.createElement("div");
-    inputBusquedaImagenes.classList.add("gcse-search");
 
     // Crear los elementos
     let date = document.createElement("p");
@@ -121,8 +111,6 @@ function getNoticiasHTML(noticias) {
 
       noticiaDiv.appendChild(botonMostrarImagenes);
       noticiaDiv.appendChild(imagenesDiv);
-      noticiaDiv.appendChild(inputBusquedaImagenes);
-
     }
 
     divResultados.appendChild(noticiaDiv);
@@ -157,5 +145,16 @@ function lazyLoadImages() {
   }
 }
 
-// Llamar a la función para cargar las noticias al cargar la página
-document.addEventListener("DOMContentLoaded", getNoticias);
+// Eventos de los botones
+document.getElementById('infobaeBtn').addEventListener('click', function() {
+  getNoticias(urlInfobae);
+});
+
+document.getElementById('carasBtn').addEventListener('click', function() {
+  getNoticias(urlCaras); // Cambia este endpoint según sea necesario
+});
+
+// Llamar a la función para cargar las noticias de Infobae al cargar la página
+document.addEventListener("DOMContentLoaded", function() {
+  getNoticias(urlInfobae);
+});

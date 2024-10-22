@@ -19,7 +19,7 @@ def index():
 def static_files(filename):
     return send_from_directory('static', filename)
 
-@app.route('/api/noticias', methods=['GET'])
+@app.route('/api/noticias/caras', methods=['GET'])
 def obtener_noticias_caras():
     url = "https://caras.perfil.com/ultimo-momento"
     
@@ -68,6 +68,7 @@ def obtener_noticias_caras():
         if noticias_article:
             date = noticias_article[0].find('span', class_="hat__fecha")
             seccion = noticias_article[0].find('a')
+            
             contenido = noticias_article[0].find("div", class_="news-content")
             urls_imagenes = [img['src'] for img in contenido.find_all('img') if 'src' in img.attrs]
         else:
@@ -90,6 +91,75 @@ def obtener_noticias_caras():
             })
 
     return jsonify(resultado)
+
+@app.route('/api/noticias/infobae', methods=['GET'])
+def obtener_noticias_infobae():
+    url = "https://www.infobae.com/ultimas-noticias/"
+    
+    # Realizar la solicitud usando requests directamente
+    try:
+        response = session.get(url)
+        response.raise_for_status()  # Lanza excepción si falla
+    except requests.RequestException as e:
+        app.logger.error(f"Error en la solicitud: {e}")
+        return jsonify({'error': 'No se pudo obtener las noticias'}), 500
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    noticias = soup.find_all('a', class_='feed-list-card')
+    
+    resultado = []
+
+    for noticia in noticias:
+        title = noticia.find('h2', class_="feed-list-card-headline-lean")
+        parrafo = noticia.find('div', class_='deck')
+        imagen = noticia.find('img')
+        imagen_url = imagen['src'] if imagen and 'src' in imagen.attrs else None
+        link_href = noticia['href'] if noticia and 'href' in noticia.attrs else None
+        
+        if link_href and not link_href.startswith('http'):
+            link_href = urljoin("https://www.infobae.com", link_href)
+            
+        # Sección de llamado al artículo
+        # Realizar la solicitud del artículo
+        try:
+            response_articulo = session.get(link_href)
+            response_articulo.raise_for_status()
+        except requests.RequestException as e:
+            app.logger.error(f"Error en la solicitud al artículo: {e}")
+            continue
+
+        soup_article = BeautifulSoup(response_articulo.text, 'html.parser')
+        noticias_article = soup_article.find_all('article', class_='article')
+        
+        # Reiniciar la lista de URLs de imágenes para cada noticia
+        urls_imagenes = []
+
+        if noticias_article:
+            date = noticias_article[0].find('span', class_="sharebar-article-date")
+            seccion = "INFOBAE | ESPECTACULOS"
+            parrafos = noticias_article[0].find_all('p', class_="paragraph")
+            contenido = [parrafo.get_text().strip() for parrafo in parrafos]
+            
+            # Obtener imágenes desde el artículo
+            urls_imagenes = [img['src'] for img in soup_article.find_all('img') if 'src' in img.attrs]
+        else:
+            date, seccion, contenido, urls_imagenes = None, None, [], []
+
+        # Sección de agregados
+        if title:
+            resultado.append({
+                'title': title.text.strip() if title else None,
+                'parrafo': parrafo.text.strip() if parrafo else None,
+                'imageUrl': imagen_url,
+                'urls_imagenes': urls_imagenes,
+                'link_href': link_href,
+                'seccion': seccion,
+                'date': date.text.strip() if date else None,
+                'contenido': " ".join(contenido),
+            })
+
+    return jsonify(resultado)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Puerto asignado por Render

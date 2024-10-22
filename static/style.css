@@ -86,7 +86,7 @@ a{
     border-radius: 16px;
     border: none;
 }
-.boton-imagenes{
+.boton-imagenes, #infobaeBtn, #carasBtn{
     text-decoration: none;
     text-align: center;
     font-size: 16px;
@@ -97,6 +97,7 @@ a{
     border-radius: 16px;
     border: none;
 }
+
 #noticias{
     display: flex;
     justify-content: space-around;
