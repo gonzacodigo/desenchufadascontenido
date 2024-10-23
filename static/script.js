@@ -1,4 +1,5 @@
 let urlInfobae = "https://desenchufadascontenido.onrender.com/api/noticias/infobae";
+let urlTelefe = "https://desenchufadascontenido.onrender.com/api/noticias/telefe";
 let urlCaras = "https://desenchufadascontenido.onrender.com/api/noticias/caras"; // Asegúrate de que este endpoint exista
 let cargando = document.getElementById('cargando');
 let cargando2 = document.getElementById('cargando2');
@@ -165,6 +166,10 @@ document.getElementById('infobaeBtn').addEventListener('click', function() {
 
 document.getElementById('carasBtn').addEventListener('click', function() {
   getNoticias(urlCaras); // Cambia este endpoint según sea necesario
+});
+
+document.getElementById('telefeBtn').addEventListener('click', function() {
+  getNoticias(urlTelefe); // Cambia este endpoint según sea necesario
 });
 
 // Llamar a la función para cargar las noticias de Infobae al cargar la página
