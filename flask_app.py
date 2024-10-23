@@ -225,7 +225,7 @@ def obtener_noticias_telefe():
         noticias_article = soup_article.find_all('article', class_='b-post')
 
         # Reiniciar la lista de URLs de imágenes para cada noticia
-        urls_imagenes = []
+        # urls_imagenes = []
 
         if noticias_article:
             date = noticias_article[0].find('span', class_="e-post-time")
@@ -236,10 +236,10 @@ def obtener_noticias_telefe():
             contenido = [parrafo.get_text().strip() for parrafo in parrafos]
 
             # Obtener imágenes desde el artículo
-            urls_imagenes = [img['src'] for img in soup_article.find_all(
-                'img') if 'src' in img.attrs]
+            # urls_imagenes = [img['src'] for img in soup_article.find_all(
+            #   'img') if 'src' in img.attrs]
         else:
-            date, seccion, contenido, urls_imagenes = None, None, [], []
+            date, seccion, contenido, = None, None, [], []
 
         # Sección de agregados
         if title:
@@ -247,7 +247,7 @@ def obtener_noticias_telefe():
                 'title': title.text.strip() if title else None,
                 'parrafo': parrafo.text.strip() if parrafo else None,
                 'imageUrl': imagen_url,
-                'urls_imagenes': urls_imagenes,
+                'urls_imagenes': "No hay imagenes adicionales en la página 😑",
                 'link_href': link_href,
                 'seccion': seccion,
                 'date': date.text.strip() if date else None,
