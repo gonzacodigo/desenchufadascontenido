@@ -14,6 +14,17 @@ body {
     width: 60%;
     margin: 20px auto;
 }
+.gsc-imageResult>.gsc-expansionArea{
+    align-items: flex-start;
+    flex-direction: column;
+    width: 85%;
+}
+
+.gs-imageResult .gs-image-box .gs-image{
+    border: none;
+    box-shadow: none;
+    background-color: #f9f5ff;
+}
 
 .container {
     color: #FFF;
