@@ -301,7 +301,7 @@ def obtener_noticias_tn():
 
     for noticia in noticias:
         title = noticia.find('h2', class_="card__headline")
-        link = noticia.find('a', class_="card__image card__media")
+        link = noticia.find('a')
         link_href = link['href'] if link and 'href' in link.attrs else None
         # Buscar el div de la imagen dentro de la noticia actual
         div_imagen = noticia.find('picture', class_="responsive-image")
