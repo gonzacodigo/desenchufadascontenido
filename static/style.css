@@ -86,7 +86,6 @@ a, .acordeon-button, .boton-imagenes {
     font-size: 16px;
     padding: 12px 20px;
     margin: 8px;
-    margin-top:20px;
     color: white;
     background-color: #D201A5;
     border-radius: 30px;
@@ -210,6 +209,11 @@ img {
     h1 {
         font-size: 24px;
     }
+    h4{
+        margin: 0px;
+        margin-top: 16px;
+        
+    }
   
     .descripcion {
         width: 90%;
@@ -222,5 +226,13 @@ img {
   
     .noticia {
         margin: 16px 0;
+        padding: 16px;
     }
+    .noticia h2{
+        margin:0px;
+    }
+    img{
+        margin: 16px auto;
+    }
+
 }
