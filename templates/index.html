@@ -14,6 +14,12 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <!-- Favicon del sitio -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/LOGODESENCHUFADAS2-TRANSPARENTE.svg') }}"
+      type="image/png"
+    />
   </head>
   <body>
     <div class="container">
@@ -29,13 +35,17 @@
       </div>
       <h1>PLATAFORMA DE CONTENIDO DESENCHUFADAS⚡</h1>
       <p class="descripcion">
-        Lo último sobre el mundo del espectáculo de
-        fuentes como INFOBAE y REVISTA CARAS.<br>YA NO HAY EXCUSAS PARA SUBIR CONTENIDO.
-        
+        Lo último sobre el mundo del espectáculo de fuentes como INFOBAE y
+        REVISTA CARAS.<br />YA NO HAY EXCUSAS PARA SUBIR CONTENIDO.
       </p>
       <div
         class="iframe_instagram"
-        style="overflow: hidden; width: 100%; max-width: 540px; margin: 0px auto"
+        style="
+          overflow: hidden;
+          width: 100%;
+          max-width: 540px;
+          margin: 0px auto;
+        "
       >
         <blockquote
           class="instagram-media"
@@ -63,9 +73,8 @@
           <button id="telefeBtn">TELEFE</button>
           <button id="tnBtn">TN</button>
         </div>
-          <div id="cargando2"><p>Cargando...</p></div>
-        </div>
-
+        <div id="cargando2"><p>Cargando...</p></div>
+      </div>
 
       <div id="noticias"></div>
     </div>
