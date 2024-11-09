@@ -142,8 +142,8 @@ a:hover, .acordeon-button:hover, .boton-imagenes:hover {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    width: 90%;
-    padding: 0 20px;
+    width: 100%;
+    padding: 0px;
     margin: 40px auto;
     min-height: 100vh;
     border-top: solid rgba(255, 255, 255, 0.5) 1px;
@@ -151,9 +151,11 @@ a:hover, .acordeon-button:hover, .boton-imagenes:hover {
 
 .noticia {
     display: flex;
+    width: 30rem;
     justify-content: start;
     flex-direction: column;
-    padding: 16px 24px;
+    flex-wrap: wrap;
+    padding: 16px;
     margin: 24px;
     background-color: #B6349D;
     border-radius: 20px;
@@ -207,7 +209,7 @@ img {
 /* Móviles (menos de 600px) */
 @media (max-width: 700px) {
     h1 {
-        font-size: 24px;
+        font-size: 20px;
     }
     h4{
         margin: 0px;
@@ -217,9 +219,12 @@ img {
   
     .descripcion {
         width: 90%;
+        margin-top: 0px;
+        margin-bottom: 24px;
     }
   
     #noticias {
+        align-content: center;
         flex-direction: column;
         margin-top: 0;
     }
@@ -227,6 +232,7 @@ img {
     .noticia {
         margin: 16px 0;
         padding: 16px;
+        width: 90%;
     }
     .noticia h2{
         margin:0px;
