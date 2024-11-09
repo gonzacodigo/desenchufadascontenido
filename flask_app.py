@@ -25,7 +25,7 @@ def static_files(filename):
 
 # Configuración de caché en memoria
 cache = {}
-CACHE_DURATION = 600  # Duración de la caché en segundos (5 minutos)
+CACHE_DURATION = 1200  # Duración de la caché en segundos (20 minutos)
 
 
 @app.route('/api/noticias/caras', methods=['GET'])
