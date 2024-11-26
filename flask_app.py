@@ -46,21 +46,27 @@ def obtener_noticias_caras():
 
     soup = BeautifulSoup(response.text, 'html.parser')
     todas_las_noticias = (
-        soup.find_all('article', class_='articulo nota-1') +
-        soup.find_all('article', class_='articulo nota-2') +
-        soup.find_all('article', class_='articulo nota-3') +
-        soup.find_all('article', class_='articulo nota-4') +
-        soup.find_all('article', class_='articulo nota-6') +
-        soup.find_all('article', class_='articulo nota-7') +
-        soup.find_all('article', class_='articulo nota-8') +
-        soup.find_all('article', class_='articulo nota-9') +
-        soup.find_all('article', class_='articulo nota-10')
+        soup.find_all('article', class_='news news--1') +
+        soup.find_all('article', class_='news news--2') +
+        soup.find_all('article', class_='news news--3') +
+        soup.find_all('article', class_='news news--4') +
+        soup.find_all('article', class_='news news--6') +
+        soup.find_all('article', class_='news news--7') +
+        soup.find_all('article', class_='news news--8') +
+        soup.find_all('article', class_='news news--9') +
+        soup.find_all('article', class_='news news--11')+
+        soup.find_all('article', class_='news news--12')+
+        soup.find_all('article', class_='news news--13')+
+        soup.find_all('article', class_='news news--14')+
+        soup.find_all('article', class_='news news--15')+
+        soup.find_all('article', class_='news news--16')+
+        soup.find_all('article', class_='news news--17')+
+        soup.find_all('article', class_='news news--18')
     )
 
     resultado = []
     for noticia in todas_las_noticias:
         title = noticia.find('h2')
-        parrafo = noticia.find('p', class_='headline')
         link = noticia.find('a')
         link_href = link['href'] if link else None
 
@@ -77,13 +83,14 @@ def obtener_noticias_caras():
 
         soup_article = BeautifulSoup(response_articulo.text, 'html.parser')
         noticias_article = soup_article.find_all(
-            'main', class_='main-container max-width margin-auto container-white considebar')
+            'main', class_='main-container max-width margin-auto bg-w considebar')
 
         if noticias_article:
             date = noticias_article[0].find('span', class_="hat__fecha")
             seccion = noticias_article[0].find('a')
+            parrafo = noticias_article[0].find('h2', class_="news__headline")
 
-            contenido = noticias_article[0].find("div", class_="news-content")
+            contenido = noticias_article[0].find("article", class_="main-article")
             urls_imagenes = [img['src']
                              for img in contenido.find_all('img') if 'src' in img.attrs]
             # Si no hay imágenes, mostrar un mensaje
@@ -107,7 +114,7 @@ def obtener_noticias_caras():
                 'link_href': link_href,
                 'seccion': 'CARAS | ' + (seccion.text.strip() if seccion else 'SIN SECCIÓN'),
                 'date': date.text.strip() if date else None,
-                'contenido': contenido.text.strip() if contenido else None,
+                'contenido': contenido.text.strip() if contenido else None
             })
 
      # Guardar los datos en la caché con el tiempo actual
